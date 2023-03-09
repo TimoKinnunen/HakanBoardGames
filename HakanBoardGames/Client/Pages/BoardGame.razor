@@ -31,22 +31,22 @@
 
 <MudTable Items="BoardGameService.BoardGames" Hover="true" Bordered="true" Striped="true" SortLabel="Sort By" Elevation="0">
     <HeaderContent>
-        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Descending" SortBy="new Func<BGBoardGame, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<BGBoardGame, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<BGBoardGame, object>(x=>x.Releasd)">Releasd</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<BGBoardGame, object>(x=>x.Tagline)">Tagline</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Descending" SortBy="new Func<BGBoardGame, object>(x=>x.BoardGameId!)">Id</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<BGBoardGame, object>(x=>x.Name!)">Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<BGBoardGame, object>(x=>x.Releasd!)">Releasd</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<BGBoardGame, object>(x=>x.Tagline!)">Tagline</MudTableSortLabel></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<BGBoardGame, object>(x=>x.SavedToDatabaseDate)">Saved date</MudTableSortLabel></MudTh>
         <MudTh>Delete</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Id">@context.BoardGameId</MudTd>
         <MudTd DataLabel="Name">@context.Name</MudTd>
         <MudTd DataLabel="Releasd">@context.Releasd</MudTd>
         <MudTd DataLabel="Tagline">@context.Tagline</MudTd>
         <MudTd DataLabel="Saved date">@context.SavedToDatabaseDate</MudTd>
         <MudTd>
             <MudTooltip Text="Delete BoardGame">
-                <MudIconButton @onclick="@(async () => await DeleteBoardGame(@context.BGBoardGameDBId))"
+                <MudIconButton @onclick="@(async () => await DeleteBoardGame(@context.Id))"
                                Icon="@Icons.Material.Filled.DeleteForever"
                                Color="Color.Error"
                                Variant="Variant.Filled">

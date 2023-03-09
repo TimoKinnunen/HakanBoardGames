@@ -54,8 +54,8 @@ namespace HakanBoardGames.Server.Services.BoardGameService
             }
 
             context.BoardGames!.Remove(dbBGBoardGame);
-            await context.SaveChangesAsync();
-
+            var tt = await context.SaveChangesAsync();
+            var r = tt;
             // TO DO
             //boardgames = await context.BoardGames!
             //           .Include(h => h.Players)
@@ -163,7 +163,7 @@ namespace HakanBoardGames.Server.Services.BoardGameService
 
                     if (jsonProperty.TryGetProperty("id", out JsonElement idElement))
                     {
-                        boardGame.Id = idElement!.GetString()!;
+                        boardGame.BoardGameId = idElement!.GetString()!;
                     }
                     else
                     {
@@ -203,7 +203,7 @@ namespace HakanBoardGames.Server.Services.BoardGameService
                             var creator = new BGCreator
                             {
                                 FullName = creatorValue!,
-                                BoardGameDBId = boardGame.BGBoardGameDBId,
+                                BoardGameId = boardGame.Id,
                                 BoardGame = boardGame,
                             };
                             creatorsList.Add(creator);
@@ -219,7 +219,7 @@ namespace HakanBoardGames.Server.Services.BoardGameService
                             var category = new BGCategory
                             {
                                 Category = categoryValue!,
-                                BoardGameDBId = boardGame.BGBoardGameDBId,
+                                BoardGameId = boardGame.Id,
                                 BoardGame = boardGame,
                             };
                             categoriesList.Add(category);
@@ -231,7 +231,7 @@ namespace HakanBoardGames.Server.Services.BoardGameService
                     {
                         var player = new BGPlayer
                         {
-                            BoardGameDBId = boardGame.BGBoardGameDBId,
+                            BoardGameId = boardGame.Id,
                             BoardGame = boardGame,
                         };
 

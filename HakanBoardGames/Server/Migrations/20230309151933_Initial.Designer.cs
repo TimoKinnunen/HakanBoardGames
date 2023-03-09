@@ -12,7 +12,7 @@ using MudBlazorVisualDNA.Server.Data;
 namespace HakanBoardGames.Server.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230125224354_Initial")]
+    [Migration("20230309151933_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -27,14 +27,14 @@ namespace HakanBoardGames.Server.Migrations
 
             modelBuilder.Entity("HakanBoardGames.Shared.BoardGameModels.BGBoardGame", b =>
                 {
-                    b.Property<Guid>("BGBoardGameDBId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<string>("Id")
+                    b.Property<string>("BoardGameId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -43,77 +43,66 @@ namespace HakanBoardGames.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Releasd")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SavedToDatabaseDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Tagline")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BGBoardGameDBId");
+                    b.HasKey("Id");
 
                     b.ToTable("BoardGames");
                 });
 
             modelBuilder.Entity("HakanBoardGames.Shared.BoardGameModels.BGCategory", b =>
                 {
-                    b.Property<Guid>("BGCategoryDBId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BoardGameBGBoardGameDBId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BoardGameDBId")
+                    b.Property<Guid>("BoardGameId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BGCategoryDBId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BoardGameBGBoardGameDBId");
+                    b.HasIndex("BoardGameId");
 
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("HakanBoardGames.Shared.BoardGameModels.BGCreator", b =>
                 {
-                    b.Property<Guid>("BGCreatorDBId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BoardGameBGBoardGameDBId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BoardGameDBId")
+                    b.Property<Guid>("BoardGameId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BGCreatorDBId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BoardGameBGBoardGameDBId");
+                    b.HasIndex("BoardGameId");
 
                     b.ToTable("Creators");
                 });
 
             modelBuilder.Entity("HakanBoardGames.Shared.BoardGameModels.BGPlayer", b =>
                 {
-                    b.Property<Guid>("BGPlayerDBId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("BoardGameBGBoardGameDBId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BoardGameDBId")
+                    b.Property<Guid>("BoardGameId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Max")
@@ -122,9 +111,9 @@ namespace HakanBoardGames.Server.Migrations
                     b.Property<int>("Min")
                         .HasColumnType("int");
 
-                    b.HasKey("BGPlayerDBId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("BoardGameBGBoardGameDBId");
+                    b.HasIndex("BoardGameId");
 
                     b.ToTable("Players");
                 });
@@ -133,7 +122,9 @@ namespace HakanBoardGames.Server.Migrations
                 {
                     b.HasOne("HakanBoardGames.Shared.BoardGameModels.BGBoardGame", "BoardGame")
                         .WithMany("Categories")
-                        .HasForeignKey("BoardGameBGBoardGameDBId");
+                        .HasForeignKey("BoardGameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("BoardGame");
                 });
@@ -142,7 +133,9 @@ namespace HakanBoardGames.Server.Migrations
                 {
                     b.HasOne("HakanBoardGames.Shared.BoardGameModels.BGBoardGame", "BoardGame")
                         .WithMany("Creators")
-                        .HasForeignKey("BoardGameBGBoardGameDBId");
+                        .HasForeignKey("BoardGameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("BoardGame");
                 });
@@ -151,7 +144,9 @@ namespace HakanBoardGames.Server.Migrations
                 {
                     b.HasOne("HakanBoardGames.Shared.BoardGameModels.BGBoardGame", "BoardGame")
                         .WithMany("Players")
-                        .HasForeignKey("BoardGameBGBoardGameDBId");
+                        .HasForeignKey("BoardGameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("BoardGame");
                 });
